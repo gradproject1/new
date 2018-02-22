@@ -10,6 +10,8 @@
     </string-array>
     <string name="title_activity_dnsign_in_page">Sign in</string>
 
+    <string name="Start"> "Your body is your most priceless possession so go take care of it"</string>
+
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password (optional)</string>
@@ -118,4 +120,11 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_paientmain">Paientmain</string>
+    <string name="title_activity_patient">Patient</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="title_activity_tabs_main">TabsMain</string>
 </resources>
