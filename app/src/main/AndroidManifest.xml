@@ -22,16 +22,22 @@
             </intent-filter>
         </activity>
         <activity android:name=".SignInPage" />
-        <activity android:name=".DNSignInPage" />
         <activity android:name=".PSignUpPage" />
-        <activity android:name=".PSignUpPage2" />
-        <activity android:name=".DNProfilePage" />
-        <activity android:name=".CancelOrDelayPage" />
-        <activity android:name=".AddDoctorAndNursePage" />
-        <activity android:name=".DeleteDoctorAndNursePage" />
         <activity
             android:name=".Patient"
             android:label="@string/title_activity_patient"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".Admin"
+            android:label="@string/title_activity_admin"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".Nurse"
+            android:label="@string/title_activity_nurse"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".Doctor"
+            android:label="@string/title_activity_doctor"
             android:theme="@style/AppTheme"></activity>
     </application>
 

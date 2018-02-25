@@ -127,4 +127,7 @@
     <string name="title_activity_patient">Patient</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="title_activity_tabs_main">TabsMain</string>
+    <string name="title_activity_admin">Admin</string>
+    <string name="title_activity_nurse">Nurse</string>
+    <string name="title_activity_doctor">Doctor</string>
 </resources>

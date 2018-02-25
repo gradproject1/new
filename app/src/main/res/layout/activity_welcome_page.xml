@@ -1,92 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="@drawable/background"
-    android:endColor="#FFAAB3B6"
-    android:startColor="#FFB8C8CD"
-    tools:context="com.example.user1.urnextapp.WelcomePage"
-    tools:layout_editor_absoluteX="0dp"
-    tools:layout_editor_absoluteY="81dp">
+    tools:context="com.example.user1.urnextapp.WelcomePage">
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="254dp"
-        android:layout_height="53dp"
 
-        android:focusable="false"
-        android:fontFamily="@font/trebuc"
-        android:text="@string/Start"
-        android:textColor="@android:color/background_light"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="@+id/imageView"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="271dp"
+            android:layout_height="159dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="80dp"
+            app:srcCompat="@drawable/logo" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="254dp"
+            android:layout_height="53dp"
+            android:layout_marginLeft="47dp"
+            android:focusable="false"
+            android:fontFamily="@font/trebuc"
+            android:text="@string/Start"
+            android:textAlignment="center"
+            android:textColor="@android:color/background_light"
+            android:textSize="16sp" />
 
 
     <Button
         android:id="@+id/btn1"
-        style="@style/TextAppearance.AppCompat.Body1"
-        android:layout_width="0dp"
-        android:layout_height="90dp"
-        android:layout_marginEnd="34dp"
-        android:layout_marginStart="34dp"
-        android:layout_marginTop="108dp"
-        android:background="@drawable/button"
+        android:layout_width="243dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="55dp"
+        android:layout_marginTop="120dp"
         android:clickable="true"
+        android:background="@drawable/button"
         android:fontFamily="@font/trebuc"
-        android:padding="16dp"
         android:text="Sign in"
         android:textAllCaps="false"
-        android:textColor="@color/colorAccent"
-
+        android:textColor="#204171"
         android:textSize="18sp"
-        android:textStyle="normal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        android:shadowColor="#e2e2e2"
+        android:textStyle="normal" />
 
     <Button
         android:id="@+id/btn2"
-        style="@style/TextAppearance.AppCompat.Body1"
-        android:layout_width="288dp"
-        android:layout_height="86dp"
-        android:layout_marginBottom="26dp"
-        android:layout_marginEnd="34dp"
-        android:layout_marginStart="34dp"
-        android:layout_marginTop="164dp"
+        android:layout_width="245dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="55dp"
         android:background="@drawable/button1"
         android:clickable="true"
         android:fontFamily="@font/trebuc"
-        android:padding="16dp"
         android:text="Sign up"
         android:textAllCaps="false"
         android:textColor="#fff"
         android:textSize="18sp"
-        android:textStyle="normal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.538"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"
-        app:layout_constraintVertical_bias="0.983" />
+        android:textStyle="normal" />
 
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="88dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo" />
-
-
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>
