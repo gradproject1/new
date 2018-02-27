@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.EditText;
 import android.widget.Toast;
 import 	android.app.ProgressDialog;
@@ -21,26 +22,22 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class PSignUpPage extends AppCompatActivity {
 
-
-    EditText name,phone,DOB;
-
-  //defining view objects
+    //defining view objects
+    private EditText name,phone,DOB;
     private EditText editTextEmail;
     private EditText editTextPassword;
     private Button buttonSignup;
-    private ProgressDialog progressDialog;
-
-
-    //defining firebaseauth object
-    private FirebaseAuth firebaseAuth;
+    private ProgressBar progressBar;
+    private FirebaseAuth auth;
+    private   FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private   DatabaseReference Patient = database.getReference("Patient");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_psign_up_page);
 
-        //initializing firebase auth object
-        firebaseAuth = FirebaseAuth.getInstance();
+        auth = FirebaseAuth.getInstance();
 
         //initializing views
         editTextEmail = (EditText) findViewById(R.id.email);
@@ -48,110 +45,86 @@ public class PSignUpPage extends AppCompatActivity {
         name = (EditText) findViewById(R.id.name);
         phone = (EditText) findViewById(R.id.phone);
         DOB=(EditText) findViewById(R.id.DOB);
-
         buttonSignup = (Button) findViewById(R.id.buttonSignup);
 
-        progressDialog = new ProgressDialog(this);
 
-
-        buttonSignup.setOnClickListener(new View.OnClickListener(){
+        buttonSignup.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick (View view)
-            {
-                Intent signup = new Intent(PSignUpPage.this, Patient.class);
-                startActivity(signup);
+            public void onClick(View v) {
+
+                final String email = editTextEmail.getText().toString().trim();
+                final String password = editTextPassword.getText().toString().trim();
+                final String name1 = name.getText().toString().trim();
+                final String phone1 = phone.getText().toString().trim();
+                final String DOB1 = DOB.getText().toString().trim();
+
+                if (email.isEmpty() && !email.contains("@")) {
+                    Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (password.isEmpty()) {
+                    Toast.makeText(getApplicationContext(), "Enter password!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (password.length() < 6) {
+                    Toast.makeText(getApplicationContext(), "Password too short, enter minimum 6 characters!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (name1.isEmpty()) {
+                    Toast.makeText(getApplicationContext(), "Please enter name!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (phone1.isEmpty()) {
+                    Toast.makeText(getApplicationContext(), "Please enter phone number!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (DOB1.isEmpty()) {
+                    Toast.makeText(getApplicationContext(), "Please enter Date of birth!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (DOB1.charAt(2)!='/' && DOB1.charAt(5)!='/' &&DOB1.length()==10 && DOB1.charAt(0)>=0 &&DOB1.charAt(0)>10 &&
+                        DOB1.charAt(1)>=0 &&DOB1.charAt(1)>10 && DOB1.charAt(3)>=0 &&DOB1.charAt(3)>10&& DOB1.charAt(4)>=0 &&DOB1.charAt(4)>10&&
+                DOB1.charAt(6)>=0 &&DOB1.charAt(6)>10&&DOB1.charAt(7)>=0 &&DOB1.charAt(7)>10&&DOB1.charAt(8)>=0 &&DOB1.charAt(8)>10&&DOB1.charAt(9)>=0 &&DOB1.charAt(9)>10
+                        )
+              {
+                    Toast.makeText(getApplicationContext(), "Please enter Date of birth correctly!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+        auth.createUserWithEmailAndPassword(email, password)
+                        .addOnCompleteListener(PSignUpPage.this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                Toast.makeText(PSignUpPage.this, "successfully registered " , Toast.LENGTH_SHORT).show();
+
+                                if (!task.isSuccessful()) {
+                                    Toast.makeText(PSignUpPage.this, "Authentication failed." + task.getException(),
+                                            Toast.LENGTH_SHORT).show();
+
+                                } else {
+                                        Toast.makeText(PSignUpPage.this, "successfully registered " , Toast.LENGTH_SHORT).show();
+                                    String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+                                    Patient.child("Name").child(uid).setValue(name1);
+                                    Patient.child("Phone").child(uid).setValue(phone1);
+                                    Patient.child("email").child(uid).setValue(email);
+                                    Patient.child("Password").child(uid).setValue(password);
+                                    Patient.child("DOB").child(uid).setValue(DOB1);
+                                    startActivity(new Intent(PSignUpPage.this, Patient.class));
+                                    finish();
+                                }
+                            }
+                        });
             }
-
-        });}
-    private void registerUser(){
-
-        String email = editTextEmail.getText().toString().trim();
-        String password  = editTextPassword.getText().toString().trim();
-        String name1 = name.getText().toString().trim();
-        String phone1=phone.getText().toString().trim();
-        String DOB1 = DOB.getText().toString().trim();
-
-
-
-        if(email.isEmpty() && !email.contains("@")){
-            Toast.makeText(this,"Please enter email",Toast.LENGTH_LONG).show();
-            return;
-        }
-
-        if(password.isEmpty()){
-            Toast.makeText(this,"Please enter password",Toast.LENGTH_LONG).show();
-            return;
-        }
-
-        if(name1.isEmpty()){
-            Toast.makeText(this,"Please enter name",Toast.LENGTH_LONG).show();
-            return;
-        }
-
-        if(phone1.isEmpty()){
-            Toast.makeText(this,"Please enter phone number",Toast.LENGTH_LONG).show();
-            return;
-        }
-
-        if(DOB1.isEmpty()){
-            Toast.makeText(this,"Please enter Date of Birth",Toast.LENGTH_LONG).show();
-            return;
-        }
-
-
-        progressDialog.setMessage("Registering Please Wait...");
-        progressDialog.show();
-//initilze DB
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference Patient = database.getReference("Patient");
-
-        //creating a new user
-        firebaseAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        //checking if success
-                        if(task.isSuccessful()){
-                            //display some message here
-                            Toast.makeText(PSignUpPage.this,"Successfully registered",Toast.LENGTH_LONG).show();
-                        }else{
-                            //display some message here
-                            Toast.makeText(PSignUpPage.this,"Registration Error",Toast.LENGTH_LONG).show();
-                        }
-                        progressDialog.dismiss();
-                    }
-                });
-        Patient.child("Name").setValue(name1);
-        Patient.child("Phone").setValue(phone1);
-        Patient.child("email").setValue(email);
-        Patient.child("Password").setValue(password);
-        Patient.child("DOB").setValue(DOB1);
-        final FirebaseUser user = firebaseAuth.getCurrentUser();
-        user.sendEmailVerification().addOnCompleteListener(this, new OnCompleteListener() {            @Override
-                    public void onComplete(@NonNull Task task) {
-
-                        if (task.isSuccessful()) {
-                            Toast.makeText(PSignUpPage.this,
-                                    "Verification email sent to " + user.getEmail(),
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-        if (user.isEmailVerified()){
-            Toast.makeText(PSignUpPage.this,"THIS EMAIL ALREADY REGISTER AND VARIED",  Toast.LENGTH_SHORT).show();
-        }
-
-        else
-        if (!user.isEmailVerified()){
-            Toast.makeText(PSignUpPage.this,"confirm your email",  Toast.LENGTH_SHORT).show();
-
-            user.sendEmailVerification();
-        }}
-
-        public void onClick(View view) {
-        //calling register method on click
-        registerUser();
+        });
     }
 
 
+
+
 }
+

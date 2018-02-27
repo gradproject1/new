@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="570dp"
+    android:layout_height="match_parent"
     android:background="@drawable/background"
     tools:context="com.example.user1.urnextapp.PSignUpPage">
 
@@ -177,6 +177,7 @@
         android:textColor="#fff"
         android:textSize="18sp"
         android:textStyle="normal" />
+
 
 
 
