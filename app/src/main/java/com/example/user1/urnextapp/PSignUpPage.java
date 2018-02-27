@@ -94,12 +94,12 @@ public class PSignUpPage extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Please enter Date of birth correctly!", Toast.LENGTH_SHORT).show();
                     return;
                 }
-
+           final   FirebaseUser user = auth.getCurrentUser();
         auth.createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener(PSignUpPage.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
-                                Toast.makeText(PSignUpPage.this, "successfully registered " , Toast.LENGTH_SHORT).show();
+                                Toast.makeText(PSignUpPage.this, "waiting .." , Toast.LENGTH_SHORT).show();
 
                                 if (!task.isSuccessful()) {
                                     Toast.makeText(PSignUpPage.this, "Authentication failed." + task.getException(),
@@ -114,11 +114,14 @@ public class PSignUpPage extends AppCompatActivity {
                                     Patient.child("email").child(uid).setValue(email);
                                     Patient.child("Password").child(uid).setValue(password);
                                     Patient.child("DOB").child(uid).setValue(DOB1);
+
                                     startActivity(new Intent(PSignUpPage.this, Patient.class));
                                     finish();
                                 }
                             }
                         });
+
+
             }
         });
     }

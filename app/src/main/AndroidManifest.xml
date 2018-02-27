@@ -27,7 +27,7 @@
 
         <activity
             android:name=".Patient"
-            android:label="@string/title_activity_patient"
+
             android:theme="@style/AppTheme" />
         <activity
             android:name=".Admin"
