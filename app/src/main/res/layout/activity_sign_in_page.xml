@@ -65,7 +65,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:layout_marginLeft="20dp">
+    android:layout_marginLeft="20dp"
+    android:id="@+id/linearLayout4">
 
     <EditText
         android:id="@+id/editText_Password"
@@ -96,17 +97,52 @@
         android:id="@+id/button3"
         android:layout_width="243dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
-        android:layout_marginLeft="55dp"
-        android:layout_marginTop="470dp"
-        android:clickable="true"
+        android:layout_alignLeft="@+id/linearLayout4"
+        android:layout_alignStart="@+id/linearLayout4"
+        android:layout_below="@+id/linearLayout4"
+        android:layout_marginLeft="33dp"
+        android:layout_marginStart="33dp"
+        android:layout_marginTop="15dp"
         android:background="@drawable/button"
+        android:clickable="true"
         android:fontFamily="@font/trebuc"
+        android:shadowColor="#e2e2e2"
         android:text="Sign in"
         android:textAllCaps="false"
         android:textColor="#204171"
         android:textSize="18sp"
-        android:shadowColor="#e2e2e2"
-        android:textStyle="normal"  />
+        android:textStyle="normal" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/button3"
+        android:layout_alignStart="@+id/button3"
+        android:layout_below="@+id/button3"
+        android:layout_marginLeft="54dp"
+        android:layout_marginStart="54dp"
+        android:layout_marginTop="13dp"
+        android:drawablePadding="16dp"
+        android:fontFamily="@font/trebuc"
+        android:text="Forgot password?"
+        android:textColor="#fff"
+        android:textColorHint="#fff"
+        android:textSize="15dp" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView"
+        android:layout_alignStart="@+id/textView"
+        android:layout_below="@+id/textView"
+        android:layout_marginTop="13dp"
+        android:drawablePadding="16dp"
+        android:fontFamily="@font/trebuc"
+        android:text="Create an account?"
+        android:textColor="#fff"
+        android:textColorHint="#fff"
+        android:textSize="15dp" />
 
 </RelativeLayout>
