@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "743919137232",
+    "firebase_url": "https://external-db-6f551.firebaseio.com",
+    "project_id": "external-db-6f551",
+    "storage_bucket": "external-db-6f551.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:743919137232:android:3c1f58f0b58ae563",
+        "android_client_info": {
+          "package_name": "com.example.user1.urnextapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "743919137232-93jc0nms813hdl4at1s45m2avim00edi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAoIuSN91_7-2Y0JjSNJSo3k1e9YxxwjuI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
