@@ -130,4 +130,6 @@
     <string name="title_activity_admin">Admin</string>
     <string name="title_activity_nurse">Nurse</string>
     <string name="title_activity_doctor">Doctor</string>
+    <string name="title_activity_splash">splash</string>
+    <string name="title_activity_verification">verification</string>
 </resources>

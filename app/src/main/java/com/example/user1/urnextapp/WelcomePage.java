@@ -8,6 +8,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
+
 public class WelcomePage extends AppCompatActivity {
 
     Button btnSignIn,btnSignUp;
@@ -19,7 +22,7 @@ public class WelcomePage extends AppCompatActivity {
 
         btnSignIn =(Button)findViewById(R.id.btn1);
         btnSignUp=(Button)findViewById(R.id.btn2);
-
+        //external database
 
         btnSignIn.setOnClickListener(new View.OnClickListener(){
             @Override

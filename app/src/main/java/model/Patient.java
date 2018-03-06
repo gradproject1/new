@@ -1,14 +1,13 @@
 package model;
 import java.util.*;
 public class Patient {
-    private String name,pass,gender;
-    private String DOB;
+    private String name,appTime;
 
-    public Patient(String name, String pass, String gender, String DOB) {
+    public Patient(){}
+    public Patient(String name, String appTime1) {
         this.name = name;
-        this.pass = pass;
-        this.gender = gender;
-        this.DOB = DOB;
+        this.appTime = appTime1;
+
     }
 
     public String getName() {
@@ -19,27 +18,11 @@ public class Patient {
         this.name = name;
     }
 
-    public String getPass() {
-        return pass;
+    public void setAppTime(String appTime) {
+        this.appTime = appTime;
     }
 
-    public void setPass(String pass) {
-        this.pass = pass;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    public String getDOB() {
-        return DOB;
-    }
-
-    public void setDOB(String DOB) {
-        this.DOB = DOB;
+    public String getAppTime() {
+        return appTime;
     }
 }

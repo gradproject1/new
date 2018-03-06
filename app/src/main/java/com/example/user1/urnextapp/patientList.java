@@ -50,9 +50,9 @@ public class patientList extends Fragment {
 
 
         //creating adapter
-        pl adapter = new pl(getActivity(), patientList);
+       /* pl adapter = new pl(getActivity(), patientList);
         //attaching adapter to the listview
-        listViewPatient.setAdapter(adapter);
+        listViewPatient.setAdapter(adapter);*/
 
 
         return PageOne;

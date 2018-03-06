@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.format.Time;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -13,7 +14,9 @@ import android.widget.Toast;
 import 	android.app.ProgressDialog;
 import java.lang.*;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseNetworkException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -23,10 +26,11 @@ import com.google.firebase.database.FirebaseDatabase;
 public class PSignUpPage extends AppCompatActivity {
 
     //defining view objects
-    private EditText name,phone,DOB;
+    private EditText name,phone;
     private EditText editTextEmail;
     private EditText editTextPassword;
     private Button buttonSignup;
+    private EditText inputEmail;
     private ProgressBar progressBar;
     private FirebaseAuth auth;
     private   FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -37,14 +41,12 @@ public class PSignUpPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_psign_up_page);
 
-        auth = FirebaseAuth.getInstance();
-
         //initializing views
         editTextEmail = (EditText) findViewById(R.id.email);
         editTextPassword = (EditText) findViewById(R.id.pass);
         name = (EditText) findViewById(R.id.name);
         phone = (EditText) findViewById(R.id.phone);
-        DOB=(EditText) findViewById(R.id.DOB);
+
         buttonSignup = (Button) findViewById(R.id.buttonSignup);
 
 
@@ -52,49 +54,41 @@ public class PSignUpPage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                final String email = editTextEmail.getText().toString().trim();
-                final String password = editTextPassword.getText().toString().trim();
-                final String name1 = name.getText().toString().trim();
-                final String phone1 = phone.getText().toString().trim();
-                final String DOB1 = DOB.getText().toString().trim();
+                final String email = editTextEmail.getText().toString();
+                final String password = editTextPassword.getText().toString();
+                final String name1 = name.getText().toString();
+                final String phone1 = phone.getText().toString();
 
-                if (email.isEmpty() && !email.contains("@")) {
-                    Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
-                    return;
+                final Time today = new Time(Time.getCurrentTimezone());
+                today.setToNow();
+                final String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+
+                if (email.isEmpty()) {
+                    inputEmail.setError("Please enter an email!");
+                }
+                else if(!email.matches(emailPattern)){
+                    inputEmail.setError("Invalid email address");
                 }
 
+
                 if (password.isEmpty()) {
-                    Toast.makeText(getApplicationContext(), "Enter password!", Toast.LENGTH_SHORT).show();
-                    return;
+                    inputEmail.setError("Please enter a Password!");
                 }
 
                 if (password.length() < 6) {
-                    Toast.makeText(getApplicationContext(), "Password too short, enter minimum 6 characters!", Toast.LENGTH_SHORT).show();
-                    return;
+
+                    inputEmail.setError("Password too short, enter minimum 6 characters!");
                 }
                 if (name1.isEmpty()) {
-                    Toast.makeText(getApplicationContext(), "Please enter name!", Toast.LENGTH_SHORT).show();
-                    return;
+                    inputEmail.setError("Please enter name!");
+
                 }
                 if (phone1.isEmpty()) {
-                    Toast.makeText(getApplicationContext(), "Please enter phone number!", Toast.LENGTH_SHORT).show();
-                    return;
+                    inputEmail.setError("Please enter a phone number!");
                 }
 
-                if (DOB1.isEmpty()) {
-                    Toast.makeText(getApplicationContext(), "Please enter Date of birth!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+          auth = FirebaseAuth.getInstance();
 
-                if (DOB1.charAt(2)!='/' && DOB1.charAt(5)!='/' &&DOB1.length()==10 && DOB1.charAt(0)>=0 &&DOB1.charAt(0)>10 &&
-                        DOB1.charAt(1)>=0 &&DOB1.charAt(1)>10 && DOB1.charAt(3)>=0 &&DOB1.charAt(3)>10&& DOB1.charAt(4)>=0 &&DOB1.charAt(4)>10&&
-                DOB1.charAt(6)>=0 &&DOB1.charAt(6)>10&&DOB1.charAt(7)>=0 &&DOB1.charAt(7)>10&&DOB1.charAt(8)>=0 &&DOB1.charAt(8)>10&&DOB1.charAt(9)>=0 &&DOB1.charAt(9)>10
-                        )
-              {
-                    Toast.makeText(getApplicationContext(), "Please enter Date of birth correctly!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-           final   FirebaseUser user = auth.getCurrentUser();
         auth.createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener(PSignUpPage.this, new OnCompleteListener<AuthResult>() {
                             @Override
@@ -102,32 +96,36 @@ public class PSignUpPage extends AppCompatActivity {
                                 Toast.makeText(PSignUpPage.this, "waiting .." , Toast.LENGTH_SHORT).show();
 
                                 if (!task.isSuccessful()) {
-                                    Toast.makeText(PSignUpPage.this, "Authentication failed." + task.getException(),
+                                    Toast.makeText(PSignUpPage.this, "This email ia already exist." ,
                                             Toast.LENGTH_SHORT).show();
 
                                 } else {
-                                        Toast.makeText(PSignUpPage.this, "successfully registered " , Toast.LENGTH_SHORT).show();
+                                    FirebaseUser user = auth.getCurrentUser();
+                                    assert user != null;
+                                    user.sendEmailVerification();
+                                        Toast.makeText(PSignUpPage.this, "A verification link has been sent to your email account" , Toast.LENGTH_LONG).show();
                                     String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                                    Patient.child(uid).child("Name").setValue(name1);
+                                    Patient.child(uid).child("Phone").setValue(phone1);
 
-                                    Patient.child("Name").child(uid).setValue(name1);
-                                    Patient.child("Phone").child(uid).setValue(phone1);
-                                    Patient.child("email").child(uid).setValue(email);
-                                    Patient.child("Password").child(uid).setValue(password);
-                                    Patient.child("DOB").child(uid).setValue(DOB1);
+                                    Patient.child(uid).child("email").setValue(email);
+                                    Patient.child(uid).child("Password").setValue(password);
+                                    Patient.child(uid).child("arrival").setValue(today.format("%k:%M"));
 
-                                    startActivity(new Intent(PSignUpPage.this, Patient.class));
+
+                                    startActivity(new Intent(PSignUpPage.this, verification.class));
                                     finish();
                                 }
                             }
-                        });
-
-
+                        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                if (e instanceof FirebaseNetworkException) {
+                    Toast.makeText(PSignUpPage.this, "Please check your connection", Toast.LENGTH_LONG).show();
+                }}
+            });
             }
         });
-    }
-
-
-
-
+ }
 }
 

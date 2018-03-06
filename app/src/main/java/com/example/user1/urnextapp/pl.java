@@ -16,7 +16,7 @@ import java.util.List;
 
 /**
  * Created by DELL on 26/02/18.
- */
+
 
 public class pl extends ArrayAdapter<Patient> {
 
@@ -51,8 +51,8 @@ public class pl extends ArrayAdapter<Patient> {
                 // No user is signed in.
             }
         });*/
-        return listViewItem;
+       /* return listViewItem;
     }
 
 
-}
+}*/

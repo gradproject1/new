@@ -13,9 +13,7 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseNetworkException;
-import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
@@ -49,22 +47,6 @@ public class SignInPage extends AppCompatActivity {
 
         firebaseAuth = FirebaseAuth.getInstance();
         databaseReference = FirebaseDatabase.getInstance().getReference();
-
-        //external database
-        FirebaseOptions options = new FirebaseOptions.Builder()
-                .setApplicationId("1:743919137232:android:3c1f58f0b58ae563") // Required for Analytics.
-                .setApiKey("AIzaSyDn_FE0FnrMOldDuQ1PQGh5UaN6Mw69rvM") // Required for Auth.
-                .setDatabaseUrl("https://external-db-6f551.firebaseio.com/") // Required for RTDB.
-                .build();
-        // Initialize with secondary app.
-        FirebaseApp.initializeApp(this , options, "secondary");
-        // Retrieve secondary app.
-        final FirebaseApp secondary = FirebaseApp.getInstance("secondary");
-        // Get the database for the other app.
-        FirebaseDatabase secondaryDatabase = FirebaseDatabase.getInstance(secondary);
-        DatabaseReference Doctor = secondaryDatabase.getReference("Doctors");
-        DatabaseReference Nurse = secondaryDatabase.getReference("Nurse");
-        DatabaseReference Admin = secondaryDatabase.getReference("Admin");
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -101,14 +83,13 @@ public class SignInPage extends AppCompatActivity {
                 else if (p.length()<5) {
                     inputPassword.setError("Password must to be more than 9 characters");
                 }
-                if(e.matches(emailAdminPattern)||e.matches(emailDoctorPattern)||e.matches(emailNusrePattern)){
-
-                    firebaseAuth.getInstance(secondary).signInWithEmailAndPassword(e, p).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                else {
+                    firebaseAuth.signInWithEmailAndPassword(e, p).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-                                FirebaseUser user = firebaseAuth.getInstance(secondary).getCurrentUser();
-                                String uid = firebaseAuth.getInstance(secondary).getCurrentUser().getUid();
+                                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                                String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
                                 if(e.matches(emailAdminPattern)){
                                     Intent i = new Intent(SignInPage.this, Admin.class);
                                     startActivity(i);
@@ -121,35 +102,10 @@ public class SignInPage extends AppCompatActivity {
                                     Intent i = new Intent(SignInPage.this, Nurse.class);
                                     startActivity(i);
                                 }
-                            }
-                            if (!task.isSuccessful()) {
-
-                            }
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            if (e instanceof FirebaseAuthInvalidUserException) {
-                                Toast.makeText(SignInPage.this, "This user not found, create a new account", Toast.LENGTH_SHORT).show();
-                            }
-                            if (e instanceof FirebaseAuthInvalidCredentialsException) {
-                                Toast.makeText(SignInPage.this, "The password is invalid, please try valid password", Toast.LENGTH_SHORT).show();
-                            }
-                            if (e instanceof FirebaseNetworkException) {
-                                Toast.makeText(SignInPage.this, "Please check your connection", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
-                }
-                else {
-                    firebaseAuth.signInWithEmailAndPassword(e, p).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                                String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                                Intent i = new Intent(SignInPage.this, Patient.class);
-                                startActivity(i);
+                                else {
+                                    Intent i = new Intent(SignInPage.this, Patient.class);
+                                    startActivity(i);
+                                }
                             }
                             if (!task.isSuccessful()) {
 
@@ -190,3 +146,5 @@ public class SignInPage extends AppCompatActivity {
         });
     }
 }
+
+
