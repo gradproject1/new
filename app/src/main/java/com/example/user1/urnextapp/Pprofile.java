@@ -27,87 +27,84 @@ import com.google.firebase.database.ValueEventListener;
 
 
 public class Pprofile extends Fragment {
-    private TextView name ,arrival,AppointmentTime,DocName;
-    private   FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private   DatabaseReference Patient = database.getReference("Patient");
-    private   DatabaseReference external = database.getReference("ExternalDB");
-    private DatabaseReference waiting = database.getReference("waiting time and queue number");
-  private  FirebaseAuth  firebaseAuth= FirebaseAuth.getInstance();
+
+    private TextView name,arrival,docName,appTime;
+    private Button logout,cancel;
+    private FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private FirebaseAuth firebaseAuth= FirebaseAuth.getInstance();
     private FirebaseUser user = firebaseAuth.getCurrentUser();
-   private String id=user.getUid();
-    private String PhoneNumber  ;
-
-
+    DatabaseReference Patient = database.getReference("Patient");
+    DatabaseReference external = database.getReference("ExternalDB");
+     String id=" ";
     //Constructor default
     public Pprofile(){};
 
 
     @Override
     public View onCreateView(  @NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) throws NullPointerException {
-        View PageTree = inflater.inflate(R.layout.fragment_pprofile, container, false);
-        name =(TextView) PageTree.findViewById(R.id.patientName);
-        arrival =(TextView) PageTree.findViewById(R.id.arrivelTime);
-        DocName =(TextView) PageTree.findViewById(R.id.doctorName);
-        AppointmentTime =(TextView) PageTree.findViewById(R.id.appTime);
+        View Page1 = inflater.inflate(R.layout.fragment_pprofile, container, false);
+
+        name=    (TextView) Page1.findViewById(R.id.patientName);
+        arrival = (TextView) Page1.findViewById(R.id.arrivelTime);
+        docName =(TextView) Page1.findViewById(R.id.doctorName);
+        appTime =(TextView) Page1.findViewById(R.id.appTime);
+        logout = (Button) Page1.findViewById(R.id.logout);
+        cancel =(Button) Page1.findViewById(R.id.cancel);
 
 
-        // Read from the database
+        if(user != null)
+        {
+            id=user.getUid();
 
-        Patient.child(id).addValueEventListener(new ValueEventListener() {
-            @Override
+        }
+
+
+        Patient.child(id).addValueEventListener(new ValueEventListener(){
             public void onDataChange(DataSnapshot dataSnapshot) {
+              String  pname= dataSnapshot.child("Name").getValue(String.class);
+              String  pphone= dataSnapshot.child("Phone").getValue(String.class);
+              name.setText(pname);
 
-              name.setText(dataSnapshot.child("Name").getValue().toString());
-              arrival.setText(dataSnapshot.child("arrival").getValue().toString());
-              PhoneNumber=dataSnapshot.child("Phone").getValue().toString();}
 
+                external.child("Appointment").child("Dental clinic").child(pphone).child(pname).addValueEventListener(new ValueEventListener(){
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                      String  dname= dataSnapshot.child("Doctor Name").getValue(String.class);
+                      String papp= dataSnapshot.child("appTime").getValue(String.class);
+                        docName.setText(dname);
+                        appTime.setText(papp);
+}
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {}
+                });
+
+             }
             @Override
-            public void onCancelled(DatabaseError error) {}
+            public void onCancelled(DatabaseError databaseError) {}
         });
 
-        String clinic = "Dental clinic";
 
-        external.child("Appointment").child(clinic).addValueEventListener(new ValueEventListener() {
-            @Override
+        Patient.child(id).child("arrival").addValueEventListener(new ValueEventListener(){
             public void onDataChange(DataSnapshot dataSnapshot) {
-
-          if (dataSnapshot.hasChild(PhoneNumber) && dataSnapshot.child(PhoneNumber).hasChild(name.getText().toString()))
-          {   DocName.setText(dataSnapshot.child(PhoneNumber).child(name.getText().toString()).child("Doctor Name").getValue().toString());
-              AppointmentTime.setText(dataSnapshot.child(PhoneNumber).child(name.getText().toString()).child("appTime").getValue().toString());
-              waiting.child(DocName.getText().toString()).child(AppointmentTime.getText().toString()).setValue(id);
-
-          }
-            }
-
+               String parraival= dataSnapshot.getValue(String.class);
+               arrival.setText(parraival);
+      }
             @Override
-            public void onCancelled(DatabaseError error) {}
+            public void onCancelled(DatabaseError databaseError) {}
         });
 
-
-
-
-        Button logout = (Button) PageTree.findViewById(R.id.logout);
-        Button cancel = (Button) PageTree.findViewById(R.id.cancel);
-// actions for buttons
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                if (firebaseAuth.getCurrentUser() != null)
+            public void onClick(View view) {
+                if(firebaseAuth != null)
+                {
                     firebaseAuth.signOut();
-                Toast.makeText(getActivity(), "successfully Log out , come back again! " , Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(getActivity(), WelcomePage.class);
-                startActivity(intent);
+                    Toast.makeText(getContext(),"You successfully logged out!", Toast.LENGTH_SHORT).show();
+                    Intent h= new Intent(getContext(), WelcomePage.class);
+                    startActivity(h); }
+
             }
         });
 
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-              //remove patient from queue
-                waiting.child(DocName.getText().toString()).child(id).removeValue();
-                Toast.makeText(getActivity(), "successfully canceling the appointment! " , Toast.LENGTH_LONG).show();
-            }
-        });
-        return PageTree;
+        return Page1;
     }
 }

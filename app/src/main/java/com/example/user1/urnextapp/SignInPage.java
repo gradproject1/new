@@ -80,7 +80,7 @@ public class SignInPage extends AppCompatActivity {
                 else if (p.isEmpty()) {
                     inputPassword.setError("Please enter your password");
                 }
-                else if (p.length()<5) {
+                else if (p.length()<6) {
                     inputPassword.setError("Password must to be more than 9 characters");
                 }
                 else {

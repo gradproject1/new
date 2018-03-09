@@ -51,7 +51,6 @@
         android:layout_marginLeft="160dp"
         android:fontFamily="@font/trebuc"
         android:textSize="23dp"
-
         android:textColor="#16a0a1"
         android:text="" />
 

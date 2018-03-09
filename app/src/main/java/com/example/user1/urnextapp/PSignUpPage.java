@@ -64,30 +64,30 @@ public class PSignUpPage extends AppCompatActivity {
                 final String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
                 if (email.isEmpty()) {
-                    inputEmail.setError("Please enter an email!");
+                    editTextEmail.setError("Please enter an email!");
                 }
                 else if(!email.matches(emailPattern)){
-                    inputEmail.setError("Invalid email address");
+                    editTextEmail.setError("Invalid email address");
                 }
 
 
-                if (password.isEmpty()) {
-                    inputEmail.setError("Please enter a Password!");
+               else if (password.isEmpty()) {
+                    editTextPassword.setError("Please enter a Password!");
                 }
 
-                if (password.length() < 6) {
+                else    if (password.length() < 6) {
 
-                    inputEmail.setError("Password too short, enter minimum 6 characters!");
+                    editTextPassword.setError("Password too short, enter minimum 6 characters!");
                 }
-                if (name1.isEmpty()) {
-                    inputEmail.setError("Please enter name!");
+                else   if (name1.isEmpty()) {
+                    name.setError("Please enter name!");
 
                 }
-                if (phone1.isEmpty()) {
-                    inputEmail.setError("Please enter a phone number!");
+                else  if (phone1.isEmpty()) {
+                    phone.setError("Please enter a phone number!");
                 }
 
-          auth = FirebaseAuth.getInstance();
+                else {   auth = FirebaseAuth.getInstance();
 
         auth.createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener(PSignUpPage.this, new OnCompleteListener<AuthResult>() {
@@ -110,9 +110,9 @@ public class PSignUpPage extends AppCompatActivity {
 
                                     Patient.child(uid).child("email").setValue(email);
                                     Patient.child(uid).child("Password").setValue(password);
-                                    Patient.child(uid).child("arrival").setValue(today.format("%k:%M"));
+                                    Patient.child(uid).child("arrival").setValue(today.format("%k:%M :%S"));
 
-
+                                    Toast.makeText(PSignUpPage.this,"You have been successfully Signed in." , Toast.LENGTH_LONG).show();
                                     startActivity(new Intent(PSignUpPage.this, verification.class));
                                     finish();
                                 }
@@ -123,7 +123,7 @@ public class PSignUpPage extends AppCompatActivity {
                 if (e instanceof FirebaseNetworkException) {
                     Toast.makeText(PSignUpPage.this, "Please check your connection", Toast.LENGTH_LONG).show();
                 }}
-            });
+            });}
             }
         });
  }
