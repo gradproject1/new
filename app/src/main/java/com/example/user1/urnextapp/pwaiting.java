@@ -97,7 +97,7 @@ public class pwaiting extends Fragment {
                                                 long diff;
                                                 try {
                                                     date1 = df.parse(papp);
-                                                    Date date2 = df.parse("11:40");
+                                                    Date date2 = df.parse(arrival1);
                                                     if (date2.before(date1)) {
                                                         queueNumber.setText(count);
                                                         diff = date1.getTime() - date2.getTime();
