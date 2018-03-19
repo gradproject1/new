@@ -44,7 +44,7 @@ public class Admin extends AppCompatActivity {
 
         Adapter.AddFragmentPage(new addDN(), "Add Page");
         Adapter.AddFragmentPage(new deleteDN(), "Delete Page");
-        Adapter.AddFragmentPage(new NDprofile(), "Profile Page");
+
 
         //We Need Fragment class now
 

@@ -1,5 +1,5 @@
 package com.example.user1.urnextapp;
-
+//android
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
+//fire base
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -29,8 +29,8 @@ public class SignInPage extends AppCompatActivity {
 
     EditText inputEmail;
     EditText inputPassword;
-    Button signin;
-    TextView signup;
+    Button sign_in;
+    TextView sign_up;
     TextView forgotPassword;
 
 
@@ -41,8 +41,8 @@ public class SignInPage extends AppCompatActivity {
 
         inputEmail = (EditText)findViewById(R.id.editTextEmailAddress);
         inputPassword = (EditText)findViewById(R.id.editText_Password);
-        signin = (Button)findViewById(R.id.button3);
-        signup = (TextView)findViewById(R.id.textView3);
+        sign_in = (Button)findViewById(R.id.button3);
+        sign_up = (TextView)findViewById(R.id.textView3);
         forgotPassword = (TextView)findViewById(R.id.textView);
 
         firebaseAuth = FirebaseAuth.getInstance();
@@ -61,16 +61,17 @@ public class SignInPage extends AppCompatActivity {
             }
         };
 
-        signin.setOnClickListener(new View.OnClickListener() {
+        sign_in.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final String e = inputEmail.getText().toString();
                 final String p = inputPassword.getText().toString();
+                // pattern for validate the email format
                 final String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
-                final String emailAdminPattern = "[HAE]+[0-9]+@[a-z]+\\.+[a-z]+";
-                final String emailDoctorPattern = "[HDE]+[0-9]+@[a-z]+\\.+[a-z]+";
-                final String emailNusrePattern = "[HNE]+[0-9]+@[a-z]+\\.+[a-z]+";
-
+                final String emailAdminPattern = "[HAE]+[0-9]+@[a-z]+\\.+[a-z]+"; //admin email format
+                final String emailDoctorPattern = "[HDE]+[0-9]+@[a-z]+\\.+[a-z]+"; //doctor email format
+                final String emailNursePattern = "[HNE]+[0-9]+@[a-z]+\\.+[a-z]+"; //nurse email format
+// check if email not empty and check email format
                 if (e.isEmpty()) {
                     inputEmail.setError("Please enter your email");
                 }
@@ -81,31 +82,41 @@ public class SignInPage extends AppCompatActivity {
                     inputPassword.setError("Please enter your password");
                 }
                 else if (p.length()<6) {
-                    inputPassword.setError("Password must to be more than 9 characters");
+                    inputPassword.setError("Password must to be more than 6 characters");
                 }
-                else {
+                else { //start sign in
                     firebaseAuth.signInWithEmailAndPassword(e, p).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
                                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                                 String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                                if(e.matches(emailAdminPattern)){
-                                    Intent i = new Intent(SignInPage.this, Admin.class);
-                                    startActivity(i);
+                                // if user verify his email allow him to login else send email for verification
+
+                                    //depend on email format open specific page
+                                    if(e.matches(emailAdminPattern)){
+                                        Intent i = new Intent(SignInPage.this, Admin.class);
+                                        startActivity(i);
+                                    }
+                                    else if(e.matches(emailDoctorPattern)){
+                                        Intent i = new Intent(SignInPage.this, Doctor.class);
+                                        startActivity(i);
+                                    }
+                                    else if(e.matches(emailNursePattern)){
+                                        Intent i = new Intent(SignInPage.this, Nurse.class);
+                                        startActivity(i);
+                                    }
+                                    else {
+                                        if(user.isEmailVerified()){
+                                            Intent i = new Intent(SignInPage.this, Patient.class);
+                                        startActivity(i);}
+                                         else if (!user.isEmailVerified()) {
+                                                Toast.makeText(SignInPage.this, "Please confirm your email", Toast.LENGTH_SHORT).show();
+                                                user.sendEmailVerification();
+                                    }
                                 }
-                                else if(e.matches(emailDoctorPattern)){
-                                    Intent i = new Intent(SignInPage.this, Doctor.class);
-                                    startActivity(i);
-                                }
-                                else if(e.matches(emailNusrePattern)){
-                                    Intent i = new Intent(SignInPage.this, Nurse.class);
-                                    startActivity(i);
-                                }
-                                else {
-                                    Intent i = new Intent(SignInPage.this, Patient.class);
-                                    startActivity(i);
-                                }
+
+
                             }
                             if (!task.isSuccessful()) {
 
@@ -113,7 +124,7 @@ public class SignInPage extends AppCompatActivity {
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
-                        public void onFailure(@NonNull Exception e) {
+                        public void onFailure(@NonNull Exception e) { // exception of login
                             if (e instanceof FirebaseAuthInvalidUserException) {
                                 Toast.makeText(SignInPage.this, "This user not found, create a new account", Toast.LENGTH_SHORT).show();
                             }
@@ -130,21 +141,19 @@ public class SignInPage extends AppCompatActivity {
             }
         });
 
-        signup.setOnClickListener(new View.OnClickListener() {
+        sign_up.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v) { //open sign up if user dos'nt have an account
                 Intent i = new Intent(SignInPage.this, PSignUpPage.class);
                 startActivity(i);
             }
         });
         forgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v) { //allow the user t change his password
                 Intent ii = new Intent(SignInPage.this, forgotPassword.class);
                 startActivity(ii);
             }
         });
     }
 }
-
-

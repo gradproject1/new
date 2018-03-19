@@ -44,8 +44,8 @@ public class Doctor extends AppCompatActivity {
 
 
         Adapter.AddFragmentPage(new patientList(), " patient list Page");
-        Adapter.AddFragmentPage(new pwaiting(), "Waiting Page");
-        Adapter.AddFragmentPage(new NDprofile(), "Profile Page");
+        Adapter.AddFragmentPage(new NDwaiting(), "Waiting Page");
+
 
         //We Need Fragment class now
 

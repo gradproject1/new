@@ -41,10 +41,6 @@
         <activity
             android:name=".Doctor"
             android:theme="@style/AppTheme" />
-        <activity
-            android:name=".verification"
-            android:label="@string/title_activity_verification"
-            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

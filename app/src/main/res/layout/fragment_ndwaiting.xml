@@ -1,0 +1,43 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f1f0f0"
+    tools:context="com.example.user1.urnextapp.NDwaiting">
+
+
+    <TextView
+        android:id="@+id/title3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="97dp"
+        android:layout_marginTop="65dp"
+        android:textSize="20dp"
+        android:fontFamily="@font/trebuc"
+        android:textColor="#4095c6"
+        android:text="Number of patients" />
+
+    <TextView
+        android:id="@+id/numberOfPatient"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="150dp"
+        android:layout_marginTop="110dp"
+        android:textSize="89dp"
+        android:textColor="#16a0a1"
+        android:fontFamily="@font/trebuc"
+        android:text="" />
+
+    <Button
+        android:id="@+id/logout2"
+        android:layout_width="247dp"
+        android:layout_height="38dp"
+        android:layout_marginLeft="60dp"
+        android:layout_marginTop="280dp"
+        android:background="@drawable/button1"
+        android:fontFamily="@font/trebuc"
+        android:text="Log Out"
+        android:textAllCaps="false"
+        android:textColor="#ffffff" />
+
+</FrameLayout>

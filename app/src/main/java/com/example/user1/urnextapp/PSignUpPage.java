@@ -59,8 +59,7 @@ public class PSignUpPage extends AppCompatActivity {
                 final String name1 = name.getText().toString();
                 final String phone1 = phone.getText().toString();
 
-                final Time today = new Time(Time.getCurrentTimezone());
-                today.setToNow();
+
                 final String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
                 if (email.isEmpty()) {
@@ -110,10 +109,7 @@ public class PSignUpPage extends AppCompatActivity {
 
                                     Patient.child(uid).child("email").setValue(email);
                                     Patient.child(uid).child("Password").setValue(password);
-                                    Patient.child(uid).child("arrival").setValue(today.format("%k:%M :%S"));
-
-                                    Toast.makeText(PSignUpPage.this,"You have been successfully Signed in." , Toast.LENGTH_LONG).show();
-                                    startActivity(new Intent(PSignUpPage.this, verification.class));
+                                    startActivity(new Intent(PSignUpPage.this, SignInPage.class));
                                     finish();
                                 }
                             }

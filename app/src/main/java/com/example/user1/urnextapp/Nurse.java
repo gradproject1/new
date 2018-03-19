@@ -44,9 +44,9 @@ public class Nurse extends AppCompatActivity {
 
 
         Adapter.AddFragmentPage(new AcceptPatient(), "Accept patient Page");
-        Adapter.AddFragmentPage(new pwaiting(), "Waiting Page");
+        Adapter.AddFragmentPage(new NDwaiting(), "Waiting Page");
         Adapter.AddFragmentPage(new cancelOrDelay(), "Cancel or Delay Page");
-        Adapter.AddFragmentPage(new NDprofile(), "Profile Page");
+
 
         //We Need Fragment class now
 
@@ -79,7 +79,7 @@ public class Nurse extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            return 2;
+            return 3;
         }
     }
 

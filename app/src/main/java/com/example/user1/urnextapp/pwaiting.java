@@ -1,13 +1,21 @@
 package com.example.user1.urnextapp;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.support.v4.widget.SwipeRefreshLayout;
+import  android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.text.format.Time;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.Button;
 import android.widget.TextClock;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,7 +52,9 @@ public class pwaiting extends Fragment {
     DatabaseReference external = database.getReference("ExternalDB");
     DatabaseReference waiting = database.getReference("waiting time and queue number");
     String id=" ";
-    //Constructor default
+    String papp;
+    Handler handler = new Handler();
+    Runnable refresh;
     public pwaiting(){
 
     };
@@ -52,90 +62,104 @@ public class pwaiting extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View PageOne = inflater.inflate(R.layout.fragment_pwaiting, container, false);
-         queueNumber = (TextView) PageOne.findViewById(R.id.queueNumber);
-         estimate = (TextView) PageOne.findViewById(R.id.estimatedTime);
-        if(user != null)
-        {
-            id=user.getUid();
+        queueNumber = (TextView) PageOne.findViewById(R.id.queueNumber);
+        estimate = (TextView) PageOne.findViewById(R.id.estimatedTime);
+
+        if (user != null) {
+            id = user.getUid();
 
         }
 
-        Patient.child(id).addValueEventListener(new ValueEventListener(){
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                String  pname= dataSnapshot.child("Name").getValue(String.class);
-                String  pphone= dataSnapshot.child("Phone").getValue(String.class);
+            //    final Time today = new Time(Time.getCurrentTimezone());
+             //   today.setToNow();
+              //  final String tod = today.format("%k:%M");
 
-                external.child("Appointment").child("Dental clinic").child(pphone).child(pname).addValueEventListener(new ValueEventListener(){
+                Patient.child(id).addValueEventListener(new ValueEventListener() {
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        String  dname= dataSnapshot.child("Doctor Name").getValue(String.class);
-                        String papp= dataSnapshot.child("appTime").getValue(String.class);
-                       waiting.child(dname).child(papp).setValue(id);
+                        final String pname = dataSnapshot.child("Name").getValue(String.class);
+                        final String pphone = dataSnapshot.child("Phone").getValue(String.class);
+                        final String arrival1 = dataSnapshot.child("arrival").getValue(String.class);
 
-                        waiting.child(dname).orderByKey().endAt(papp).addValueEventListener(new ValueEventListener() {
+                        external.child("Appointment").child("Dental clinic").child(pphone).child(pname).addValueEventListener(new ValueEventListener() {
                             public void onDataChange(DataSnapshot dataSnapshot) {
-                                String count = "" + dataSnapshot.getChildrenCount();
-                                queueNumber.setText(count);
+                                String dname = dataSnapshot.child("Doctor Name").getValue(String.class);
+                                 papp = dataSnapshot.child("appTime").getValue(String.class);
+                                if (dname != null && papp != null) {
+                                    waiting.child(dname).child(papp).setValue(id);
+
+                                    waiting.child(dname).orderByKey().endAt(papp).addValueEventListener(new ValueEventListener() {
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                                String count = "" + dataSnapshot.getChildrenCount();
+
+                                                DateFormat df = new java.text.SimpleDateFormat("hh:mm");
+                                                Date date1 = null;
+                                                long diff;
+                                                try {
+                                                    date1 = df.parse(papp);
+                                                    Date date2 = df.parse("11:40");
+                                                    if (date2.before(date1)) {
+                                                        queueNumber.setText(count);
+                                                        diff = date1.getTime() - date2.getTime();
+                                                        long timeInSeconds = diff / 1000;
+                                                        long hours, minutes, second;
+                                                        hours = timeInSeconds / 3600;
+                                                        timeInSeconds = timeInSeconds - (hours * 3600);
+                                                        minutes = timeInSeconds / 60;
+                                                        timeInSeconds = timeInSeconds - (minutes * 60);
+
+                                                        reverseTimer((int) diff);
+
+                                                    }
+                                                    if (date2.after(date1)) {
+                                                        estimate.setText("00:00:00");
+                                                        queueNumber.setText("0");
+                                                    }
+                                                    //  estimate.setText(t);
+                                                } catch (ParseException e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+
+
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+                                        }
+                                    });
+
+
+
+
+                                } else
+                                {
+                                    Toast.makeText(getContext(),"You don't have an appointment" , Toast.LENGTH_LONG).show();
+                                    startActivity(new Intent(getContext(), WelcomePage.class));
+                                    getActivity().finish();
+                                }
+
                             }
 
                             @Override
-                            public void onCancelled(DatabaseError databaseError) {}
+                            public void onCancelled(DatabaseError databaseError) {
+                            }
                         });
-
-                        //caculate admission time
-                        //calculate esttimated time
-
-                        final Time today = new Time(Time.getCurrentTimezone());
-                        today.setToNow();
-                       // int appHours = Integer.parseInt(papp.substring(0,2));
-                        //int appMin=Integer.parseInt(papp.substring(3));
-                        String tod=today.format("%k:%M");
-                     //   int nowHours=Integer.parseInt(tod.substring(0,2));
-                       // int nowMin = Integer.parseInt(tod.substring(3));
-
-                      //  int subHours = nowHours - appHours %60;
-                      //  int subMin = nowMin - appMin % 60;
-
-                       // String totalTime =subHours +":"+subMin;
-
-                       DateFormat df = new java.text.SimpleDateFormat("hh:mm");
-                        Date date1 = null;
-                        try {
-                            date1 = df.parse(papp);
-                            Date date2 = df.parse(tod);
-                            long diff = date1.getTime() - date2.getTime();
-
-                            long timeInSeconds = diff / 1000;
-                            long hours, minutes,second;
-                            hours = timeInSeconds / 3600;
-                            timeInSeconds = timeInSeconds - (hours * 3600);
-                            minutes = timeInSeconds / 60;
-                            timeInSeconds = timeInSeconds - (minutes * 60);
-
-                            reverseTimer((int)diff);
-
-                          //  estimate.setText(t);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-
 
                     }
 
                     @Override
-                    public void onCancelled(DatabaseError databaseError) {}
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
                 });
 
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {}
-        });
 
 
 
 
-
-        return PageOne;
+           return PageOne;
     }
+
+
+
     public void reverseTimer(int Seconds) {
 
         new CountDownTimer(Seconds, 1000) {
@@ -147,15 +171,16 @@ public class pwaiting extends Fragment {
                 int tempMint = (seconds - (hours * 60 * 60));
                 int minutes = tempMint / 60;
                 seconds = tempMint - (minutes * 60);
-            String t=           String.format("%02d", hours)
+                String t = String.format("%02d", hours)
                         + ":" + String.format("%02d", minutes)
                         + ":" + String.format("%02d", seconds);
                 estimate.setText(t);
             }
 
             public void onFinish() {
-                estimate.setText("Your turn!");
+                estimate.setText("00 : 00 : 00");
             }
         }.start();
-    }
+        }
+
 }

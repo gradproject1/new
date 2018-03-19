@@ -1,8 +1,11 @@
 package com.example.user1.urnextapp;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.format.Time;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +38,8 @@ public class Pprofile extends Fragment {
     private FirebaseUser user = firebaseAuth.getCurrentUser();
     DatabaseReference Patient = database.getReference("Patient");
     DatabaseReference external = database.getReference("ExternalDB");
+    DatabaseReference walkIn = database.getReference("walk in");
+    DatabaseReference waiting = database.getReference("waiting time and queue number");
      String id=" ";
     //Constructor default
     public Pprofile(){};
@@ -61,17 +66,45 @@ public class Pprofile extends Fragment {
 
         Patient.child(id).addValueEventListener(new ValueEventListener(){
             public void onDataChange(DataSnapshot dataSnapshot) {
-              String  pname= dataSnapshot.child("Name").getValue(String.class);
-              String  pphone= dataSnapshot.child("Phone").getValue(String.class);
+              final String  pname= dataSnapshot.child("Name").getValue(String.class);
+              final String  pphone= dataSnapshot.child("Phone").getValue(String.class);
+                final String arrival = dataSnapshot.child("arrival").getValue(String.class);
               name.setText(pname);
 
 
                 external.child("Appointment").child("Dental clinic").child(pphone).child(pname).addValueEventListener(new ValueEventListener(){
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                      String  dname= dataSnapshot.child("Doctor Name").getValue(String.class);
-                      String papp= dataSnapshot.child("appTime").getValue(String.class);
+                      final String  dname= dataSnapshot.child("Doctor Name").getValue(String.class);
+                      final String papp= dataSnapshot.child("appTime").getValue(String.class);
+
                         docName.setText(dname);
                         appTime.setText(papp);
+
+                        cancel.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                new AlertDialog.Builder(getContext())
+                                        .setIcon(android.R.drawable.ic_dialog_alert)
+                                        .setTitle("Canceling appointment")
+                                        .setMessage("Are you sure you want to cancel this appointment?")
+                                        .setPositiveButton("Confirm", new DialogInterface.OnClickListener()
+                                        {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                if (dname != null)
+                                                waiting.child(dname).child(papp).removeValue();
+                                                Toast.makeText(getContext(),"You successfully canceled this appointment!", Toast.LENGTH_SHORT).show();
+                                                Intent h= new Intent(getContext(), WelcomePage.class);
+                                                startActivity(h);
+
+                                            }
+
+                                        })
+                                        .setNegativeButton("cancel", null)
+                                        .show();
+                         }
+                        });
+
 }
                     @Override
                     public void onCancelled(DatabaseError databaseError) {}
@@ -82,28 +115,38 @@ public class Pprofile extends Fragment {
             public void onCancelled(DatabaseError databaseError) {}
         });
 
+        final Time today = new Time(Time.getCurrentTimezone());
+        today.setToNow();
+        Patient.child(id).child("arrival").setValue(today.format("%k:%M"));
+               arrival.setText(today.format("%k:%M"));
 
-        Patient.child(id).child("arrival").addValueEventListener(new ValueEventListener(){
-            public void onDataChange(DataSnapshot dataSnapshot) {
-               String parraival= dataSnapshot.getValue(String.class);
-               arrival.setText(parraival);
-      }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {}
-        });
 
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(firebaseAuth != null)
-                {
-                    firebaseAuth.signOut();
-                    Toast.makeText(getContext(),"You successfully logged out!", Toast.LENGTH_SHORT).show();
-                    Intent h= new Intent(getContext(), WelcomePage.class);
-                    startActivity(h); }
+                new AlertDialog.Builder(getContext())
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setTitle("Log out")
+                        .setMessage("Are you sure you want to logging out?")
+                        .setPositiveButton("Confirm", new DialogInterface.OnClickListener()
+                        {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if(firebaseAuth != null)
+                                {
+                                    firebaseAuth.signOut();
+                                    Toast.makeText(getContext(),"You successfully logged out!", Toast.LENGTH_SHORT).show();
+                                    Intent h= new Intent(getContext(), WelcomePage.class);
+                                    startActivity(h); }
+                            }
 
+                        })
+                        .setNegativeButton("Cancel", null)
+                        .show();
             }
+
         });
+
 
         return Page1;
     }
