@@ -4,10 +4,20 @@
     android:layout_height="match_parent"
     tools:context="com.example.user1.urnextapp.addDN">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    <Button
+        android:id="@+id/selectImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp"
+        android:background="@drawable/button"
+        android:fontFamily="@font/trebuc"
+        android:shadowColor="#e2e2e2"
+        android:text="Upload"
+        android:textAllCaps="false"
+        android:textColor="#204171"
+        android:textSize="18sp"
+        android:textStyle="normal"
+        />
 
 </FrameLayout>

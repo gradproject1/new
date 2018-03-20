@@ -42,9 +42,7 @@ public class Admin extends AppCompatActivity {
         Admin.MyViewPageAdapter Adapter = new Admin.MyViewPageAdapter(getSupportFragmentManager());
 
 
-        Adapter.AddFragmentPage(new addDN(), "Add Page");
-        Adapter.AddFragmentPage(new deleteDN(), "Delete Page");
-
+        Adapter.AddFragmentPage(new addDN(), "Add Entertainment Page");
 
         //We Need Fragment class now
 
@@ -77,7 +75,7 @@ public class Admin extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            return 2;
+            return 1;
         }
     }
 
