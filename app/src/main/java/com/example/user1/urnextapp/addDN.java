@@ -1,8 +1,10 @@
 package com.example.user1.urnextapp;
 
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,6 +17,7 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -28,13 +31,14 @@ public class addDN extends Fragment {
    private Button mSelectVideo;
    private Button mSelectFashion;
    private Button mSelectBook;
+   private FirebaseAuth firebaseAuth= FirebaseAuth.getInstance();
    private StorageReference mStorage;
    private static final int IMAGE_INTENT = 1;
    private static final int VIDEO_INTENT = 2;
    private static final int FASHION_INTENT = 3;
    private static final int BOOK_INTENT = 4;
    private ProgressDialog mprogressDialog;
-
+   private Button logout;
 
    //Constructor default
    public addDN(){};
@@ -49,6 +53,7 @@ public class addDN extends Fragment {
       mSelectVideo = (Button) PageOne.findViewById(R.id.selectVideo);
       mSelectFashion = (Button) PageOne.findViewById(R.id.selectFashion);
       mSelectBook = (Button) PageOne.findViewById(R.id.selectBook);
+      logout = (Button) PageOne.findViewById(R.id.logout3);
       mprogressDialog = new ProgressDialog(getActivity());
 
 
@@ -97,7 +102,31 @@ public class addDN extends Fragment {
          }
       });
 //////////////////////////////////////////////////////////////////////
+      logout.setOnClickListener(new View.OnClickListener() {
+         @Override
+         public void onClick(View view) {
+            new AlertDialog.Builder(getContext())
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setTitle("Log out")
+                    .setMessage("Are you sure you want to logging out?")
+                    .setPositiveButton("Confirm", new DialogInterface.OnClickListener()
+                    {
+                       @Override
+                       public void onClick(DialogInterface dialog, int which) {
+                          if(firebaseAuth != null)
+                          {
+                             firebaseAuth.signOut();
+                             Toast.makeText(getContext(),"You successfully logged out!", Toast.LENGTH_SHORT).show();
+                             Intent h= new Intent(getContext(), WelcomePage.class);
+                             startActivity(h); }
+                       }
 
+                    })
+                    .setNegativeButton("Cancel", null)
+                    .show();
+         }
+
+      });
       return PageOne;
    }
    @Override
@@ -168,5 +197,6 @@ public class addDN extends Fragment {
          }
 
       }
+
    }
 }
