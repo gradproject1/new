@@ -1,8 +1,6 @@
 package com.example.user1.urnextapp;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -12,13 +10,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
+
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Nurse extends AppCompatActivity {
-
 
     TabLayout MyTabs;
     ViewPager MyPage;
@@ -36,7 +33,6 @@ public class Nurse extends AppCompatActivity {
         MyTabs.setupWithViewPager(MyPage);
         SetUpViewPager(MyPage);
 
-
     }
 
     public void SetUpViewPager (ViewPager viewpage){
@@ -44,14 +40,10 @@ public class Nurse extends AppCompatActivity {
 
 
         Adapter.AddFragmentPage(new AcceptPatient(), "Accept patient Page");
-        Adapter.AddFragmentPage(new NDwaiting(), "Waiting Page");
+        Adapter.AddFragmentPage(new pwaiting(), "Waiting Page");
         Adapter.AddFragmentPage(new cancelOrDelay(), "Cancel or Delay Page");
-
-
         //We Need Fragment class now
-
         viewpage.setAdapter(Adapter);
-
     }
 
     public class MyViewPageAdapter extends FragmentPagerAdapter {

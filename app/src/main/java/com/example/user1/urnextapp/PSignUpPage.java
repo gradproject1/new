@@ -106,7 +106,10 @@ public class PSignUpPage extends AppCompatActivity {
                                     String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
                                     Patient.child(uid).child("Name").setValue(name1);
                                     Patient.child(uid).child("Phone").setValue(phone1);
-
+                                    Patient.child(uid).child("sport").setValue("0");
+                                    Patient.child(uid).child("video").setValue("0");
+                                    Patient.child(uid).child("fashion").setValue("0");
+                                    Patient.child(uid).child("photo").setValue("0");
                                     Patient.child(uid).child("email").setValue(email);
                                     Patient.child(uid).child("Password").setValue(password);
                                     startActivity(new Intent(PSignUpPage.this, SignInPage.class));

@@ -132,4 +132,6 @@
     <string name="title_activity_doctor">Doctor</string>
     <string name="title_activity_splash">splash</string>
     <string name="title_activity_verification">verification</string>
+    <string name="default_notification_channel_id">Tvac_CH_01</string>
+    <string name="title_activity_entertainment_sign_up">entertainmentSignUp</string>
 </resources>

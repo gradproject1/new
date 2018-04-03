@@ -72,7 +72,7 @@ public class Pprofile extends Fragment {
               name.setText(pname);
 
 
-                external.child("Appointment").child("Dental clinic").child(pphone).child(pname).addValueEventListener(new ValueEventListener(){
+                external.child("Appointment").child("Dental clinic").child(pphone).addValueEventListener(new ValueEventListener(){
                     public void onDataChange(DataSnapshot dataSnapshot) {
                       final String  dname= dataSnapshot.child("Doctor Name").getValue(String.class);
                       final String papp= dataSnapshot.child("appTime").getValue(String.class);
@@ -96,6 +96,7 @@ public class Pprofile extends Fragment {
                                                 Toast.makeText(getContext(),"You successfully canceled this appointment!", Toast.LENGTH_SHORT).show();
                                                 Intent h= new Intent(getContext(), WelcomePage.class);
                                                 startActivity(h);
+
 
                                             }
 

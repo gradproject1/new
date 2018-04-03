@@ -19,8 +19,15 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.util.Date;
 
 public class SignInPage extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
@@ -32,8 +39,9 @@ public class SignInPage extends AppCompatActivity {
     Button sign_in;
     TextView sign_up;
     TextView forgotPassword;
-
-
+    private FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference Patient = database.getReference("Patient");
+    DatabaseReference external = database.getReference("ExternalDB");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,7 +97,7 @@ public class SignInPage extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-                                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                                final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                                 String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
                                 // if user verify his email allow him to login else send email for verification
 
@@ -108,8 +116,45 @@ public class SignInPage extends AppCompatActivity {
                                     }
                                     else {
                                         if(user.isEmailVerified()){
-                                            Intent i = new Intent(SignInPage.this, Patient.class);
-                                        startActivity(i);}
+                                            Patient.child(uid).addValueEventListener(new ValueEventListener() {
+                                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                                    final String pname = dataSnapshot.child("Name").getValue(String.class);
+                                                    final String pphone = dataSnapshot.child("Phone").getValue(String.class);
+
+                                                    external.child("Appointment").child("Dental clinic").child(pphone).addValueEventListener(new ValueEventListener() {
+                                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                                            String dname = dataSnapshot.child("Doctor Name").getValue(String.class);
+                                                           String  papp = dataSnapshot.child("appTime").getValue(String.class);
+                                                            if (dname != null && papp != null && pname.equals(user.getDisplayName())) {
+
+                                                                Intent i = new Intent(SignInPage.this, Patient.class);
+                                                                startActivity(i);
+
+
+                                                            } else
+                                                            {
+                                                                Toast.makeText(SignInPage.this,"You don't have an appointment" , Toast.LENGTH_LONG).show();
+                                                                startActivity(new Intent(SignInPage.this, WelcomePage.class));
+                                                                finish();
+
+                                                            }
+
+                                                        }
+
+                                                        @Override
+                                                        public void onCancelled(DatabaseError databaseError) {
+                                                        }
+                                                    });
+
+                                                }
+
+                                                @Override
+                                                public void onCancelled(DatabaseError databaseError) {
+                                                }
+                                            });
+
+
+                                           }
                                          else if (!user.isEmailVerified()) {
                                                 Toast.makeText(SignInPage.this, "Please confirm your email", Toast.LENGTH_SHORT).show();
                                                 user.sendEmailVerification();

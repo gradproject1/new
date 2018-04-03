@@ -80,7 +80,7 @@ public class pwaiting extends Fragment {
                         final String pphone = dataSnapshot.child("Phone").getValue(String.class);
                         final String arrival1 = dataSnapshot.child("arrival").getValue(String.class);
 
-                        external.child("Appointment").child("Dental clinic").child(pphone).child(pname).addValueEventListener(new ValueEventListener() {
+                        external.child("Appointment").child("Dental clinic").child(pphone).addValueEventListener(new ValueEventListener() {
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 String dname = dataSnapshot.child("Doctor Name").getValue(String.class);
                                  papp = dataSnapshot.child("appTime").getValue(String.class);
@@ -91,6 +91,7 @@ public class pwaiting extends Fragment {
                                         public void onDataChange(DataSnapshot dataSnapshot) {
 
                                                 String count = "" + dataSnapshot.getChildrenCount();
+
 
                                                 DateFormat df = new java.text.SimpleDateFormat("hh:mm");
                                                 Date date1 = null;
@@ -132,9 +133,8 @@ public class pwaiting extends Fragment {
 
                                 } else
                                 {
-                                    Toast.makeText(getContext(),"You don't have an appointment" , Toast.LENGTH_LONG).show();
-                                    startActivity(new Intent(getContext(), WelcomePage.class));
-                                    getActivity().finish();
+                                    queueNumber.setText("0");
+                                    estimate.setText("00:00:00");
                                 }
 
                             }

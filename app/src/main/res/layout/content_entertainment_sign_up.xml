@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    tools:context="com.example.user1.urnextapp.PSignUpPage">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:ignore="UseCompoundDrawables"
+        android:id="@+id/linearLayout2">
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="271dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="50dp"
+            app:srcCompat="@drawable/logo" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="249dp"
+            android:layout_height="37dp"
+            android:layout_marginLeft="47dp"
+            android:focusable="false"
+            android:fontFamily="@font/trebuc"
+            android:text="Sign Up Page"
+            android:textAlignment="center"
+            android:textColor="@android:color/background_light"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+    <!-- name -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="20dp"
+        android:id="@+id/linearLayout3">
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="315dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="227dp"
+            android:drawablePadding="16dp"
+            android:fontFamily="@font/trebuc"
+            android:textColor="#fff"
+            android:padding="16dp"
+            android:text="Choose your personalized entertainment content"
+            android:textColorHint="#fff"
+           />
+
+    </LinearLayout>
+
+    <CheckBox
+        android:id="@+id/video"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/linearLayout3"
+        android:layout_alignStart="@+id/linearLayout3"
+        android:layout_below="@+id/linearLayout3"
+        android:layout_marginLeft="19dp"
+        android:layout_marginStart="19dp"
+        android:text="Videos"
+        android:onClick="selectItem"
+        android:textColor="#fff" />
+
+    <CheckBox
+        android:id="@+id/photo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/video"
+        android:layout_alignRight="@+id/video"
+        android:layout_below="@+id/video"
+        android:text="Photos"
+        android:onClick="selectItem"
+        android:textColor="#fff" />
+
+    <CheckBox
+        android:id="@+id/fashion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_alignLeft="@+id/sport"
+        android:layout_alignStart="@+id/sport"
+        android:layout_below="@+id/sport"
+        android:onClick="selectItem"
+        android:text="Fashion"
+        android:textColor="#fff" />
+
+    <CheckBox
+        android:id="@+id/sport"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/video"
+        android:layout_alignStart="@+id/video"
+        android:layout_below="@+id/photo"
+        android:onClick="selectItem"
+        android:text="Sport"
+        android:textColor="#fff" />
+
+    <Button
+        android:id="@+id/buttonSignup"
+        android:layout_width="245dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="55dp"
+        android:layout_marginTop="440dp"
+        android:background="@drawable/button1"
+        android:clickable="true"
+        android:fontFamily="@font/trebuc"
+        android:text="Sign up"
+        android:textAllCaps="false"
+        android:textColor="#fff"
+        android:textSize="18sp"
+        android:textStyle="normal" />
+
+
+</RelativeLayout>

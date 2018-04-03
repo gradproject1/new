@@ -1,13 +1,150 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.user1.urnextapp.cancelOrDelay">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
 
-</FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/linear"
+            android:layout_width="match_parent"
+            android:layout_height="500dp"
+            android:orientation="vertical" >
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="7dp"
+            android:layout_marginStart="7dp"
+            android:layout_marginTop="9dp"
+            android:fontFamily="@font/trebuc"
+            android:text="Choose:"
+            android:textColor="@color/colorPrimary"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:typeface="monospace" />
+
+        <RadioGroup
+            android:id="@+id/groubp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="7dp"
+            android:layout_marginStart="7dp"
+            android:layout_marginTop="60dp"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/Cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Cancel"
+                android:textColor="@color/colorPrimary" />
+
+            <RadioButton
+                android:id="@+id/Delay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Delay"
+                android:textColor="@color/colorPrimary" />
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/textView10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="7dp"
+            android:layout_marginStart="7dp"
+            android:layout_marginTop="105dp"
+            android:fontFamily="@font/trebuc"
+            android:text="Write a reason for the patients:"
+            android:textColor="@color/colorPrimary"
+            android:textColorLink="@color/colorPrimary"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:typeface="monospace" />
+
+        <EditText
+            android:id="@+id/textArea_information"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="7dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="150dp"
+            android:background="@drawable/common_google_signin_btn_icon_dark_normal_background"
+            android:hint="Write a comment here..."
+            android:fontFamily="@font/trebuc"
+            android:gravity="top|left"
+            android:inputType="textMultiLine"
+            android:lines="6"
+            android:overScrollMode="always"
+            android:scrollHorizontally="false"
+            android:scrollbarStyle="insideInset"
+            android:scrollbars="vertical"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="?android:attr/colorForeground"
+            android:textSize="17sp"
+            android:textStyle="normal"
+            android:typeface="monospace" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="7dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="300dp"
+            android:fontFamily="@font/trebuc"
+            android:text="Write the delay time:"
+            android:textColor="@color/colorPrimary"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:typeface="monospace" />
+
+        <EditText
+            android:id="@+id/time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="7dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="320dp"
+            android:ems="10"
+            android:fontFamily="@font/trebuc"
+            android:hint="Write the delay time"
+            android:inputType="time"
+            android:textSize="17sp"
+            android:textStyle="normal"
+            android:typeface="monospace" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="35dp"
+            android:layout_marginStart="145dp"
+            android:layout_marginTop="370dp"
+            android:background="@drawable/button"
+            android:clickable="true"
+            android:fontFamily="@font/trebuc"
+            android:shadowColor="#e2e2e2"
+            android:text="Submit"
+            android:textAllCaps="false"
+            android:textColor="#204171"
+            android:textSize="18sp"
+            android:textStyle="normal"
+            android:typeface="monospace" />
+    </FrameLayout>
+
+</ScrollView>
+
+
