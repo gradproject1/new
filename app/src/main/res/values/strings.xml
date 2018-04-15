@@ -134,4 +134,5 @@
     <string name="title_activity_verification">verification</string>
     <string name="default_notification_channel_id">Tvac_CH_01</string>
     <string name="title_activity_entertainment_sign_up">entertainmentSignUp</string>
+    <string name="title_activity_display_images">DisplayImagesActivity</string>
 </resources>

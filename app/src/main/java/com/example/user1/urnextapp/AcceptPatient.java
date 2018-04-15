@@ -129,6 +129,7 @@ public class AcceptPatient extends Fragment {
                                                     } else {
                                                         int count = 0;
                                                         for (int i = 0; i < PatientList.size(); i++) {
+                                                            assert PatientList.get(i) != null;
                                                             if (PatientList.get(i).gettime().equals(Patient_information.gettime())) {
                                                                 count++;
                                                             }
@@ -154,7 +155,7 @@ public class AcceptPatient extends Fragment {
                                                         }
                                                     }
                                                 }
-                                                adapter.notifyDataSetChanged();
+                                                //adapter.notifyDataSetChanged();
                                             }
 
                                             @Override

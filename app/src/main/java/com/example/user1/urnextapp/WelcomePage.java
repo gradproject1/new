@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.estimote.coresdk.common.requirements.SystemRequirementsChecker;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 
@@ -46,6 +47,10 @@ public class WelcomePage extends AppCompatActivity {
 
 
     }
+    protected void onResume() {
+        super.onResume();
 
+        SystemRequirementsChecker.checkWithDefaultDialogs(this);
+    }
     
 }

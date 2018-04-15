@@ -68,7 +68,8 @@ public class Pprofile extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
               final String  pname= dataSnapshot.child("Name").getValue(String.class);
               final String  pphone= dataSnapshot.child("Phone").getValue(String.class);
-                final String arrival = dataSnapshot.child("arrival").getValue(String.class);
+                final String arrival2 = dataSnapshot.child("arrival").getValue(String.class);
+                arrival.setText(arrival2);
               name.setText(pname);
 
 
@@ -116,10 +117,7 @@ public class Pprofile extends Fragment {
             public void onCancelled(DatabaseError databaseError) {}
         });
 
-        final Time today = new Time(Time.getCurrentTimezone());
-        today.setToNow();
-        Patient.child(id).child("arrival").setValue(today.format("%k:%M"));
-               arrival.setText(today.format("%k:%M"));
+
 
 
         logout.setOnClickListener(new View.OnClickListener() {

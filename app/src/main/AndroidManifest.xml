@@ -14,8 +14,9 @@
     <application
         android:name=".MyBeacon"
         android:allowBackup="true"
+
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label="UrNext"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -62,6 +63,10 @@
         <activity
             android:name=".entertainmentSignUp"
             android:label="@string/title_activity_entertainment_sign_up"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".DisplayImagesActivity"
+            android:label="@string/title_activity_display_images"
             android:theme="@style/AppTheme"></activity>
     </application>
 

@@ -78,7 +78,17 @@ public class AcceptList extends ArrayAdapter<Accept_List_Information> {
                 final Time today = new Time(Time.getCurrentTimezone());
                 today.setToNow();
                 String Today= today.format("%k:%M");
-                AcceptPatient.patient_table.child(AcceptPatient.patient_ID.get(position)).child(" admission time").setValue(Today);
+                DateFormat df = new java.text.SimpleDateFormat("hh:mm");
+                try {
+                    Date date1=df.parse(Today);
+                    Date date2 =df.parse(AcceptPatient.appTime.get(position));
+
+                    String admition=(date1.getTime()-date2.getTime()+"");
+                    AcceptPatient.patient_table.child(AcceptPatient.patient_ID.get(position)).child(" admission time").setValue(admition);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
 
                 // each user have a document of notification
                 Map<String, Object> notification_message= new HashMap<>(); //map between user and his collection

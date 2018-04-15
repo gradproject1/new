@@ -12,6 +12,7 @@ import android.widget.Toast;
 //fire base
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseNetworkException;
 import com.google.firebase.auth.AuthResult;
@@ -24,16 +25,20 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SignInPage extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
     DatabaseReference databaseReference ;
     FirebaseAuth.AuthStateListener mAuthListener;
-
+    private FirebaseFirestore fire_store; //to store token id in his document
     EditText inputEmail;
     EditText inputPassword;
     Button sign_in;
@@ -55,7 +60,7 @@ public class SignInPage extends AppCompatActivity {
 
         firebaseAuth = FirebaseAuth.getInstance();
         databaseReference = FirebaseDatabase.getInstance().getReference();
-
+        fire_store= FirebaseFirestore.getInstance(); //fire store instance
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -99,7 +104,17 @@ public class SignInPage extends AppCompatActivity {
                             if (task.isSuccessful()) {
                                 final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                                 String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                                // if user verify his email allow him to login else send email for verification
+                                // get user token id so, we can send to him a notification
+                                String Token_ID= FirebaseInstanceId.getInstance().getToken();
+                                Map<String,Object> token_map= new HashMap<>();
+                                token_map.put("Token_ID", Token_ID);
+                                fire_store.collection("Usres").document(uid).update(token_map).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                                                                        @Override
+                                                                                                                        public void onSuccess(Void aVoid) {
+
+                                                                                                                        }
+                                                                                                                    });
+                                    // if user verify his email allow him to login else send email for verification
 
                                     //depend on email format open specific page
                                     if(e.matches(emailAdminPattern)){
@@ -115,7 +130,7 @@ public class SignInPage extends AppCompatActivity {
                                         startActivity(i);
                                     }
                                     else {
-                                        if(user.isEmailVerified()){
+                                        if(user.isEmailVerified() ){
                                             Patient.child(uid).addValueEventListener(new ValueEventListener() {
                                                 public void onDataChange(DataSnapshot dataSnapshot) {
                                                     final String pname = dataSnapshot.child("Name").getValue(String.class);
@@ -123,9 +138,10 @@ public class SignInPage extends AppCompatActivity {
 
                                                     external.child("Appointment").child("Dental clinic").child(pphone).addValueEventListener(new ValueEventListener() {
                                                         public void onDataChange(DataSnapshot dataSnapshot) {
+                                                            String name = dataSnapshot.child ("Name").getValue(String.class);
                                                             String dname = dataSnapshot.child("Doctor Name").getValue(String.class);
                                                            String  papp = dataSnapshot.child("appTime").getValue(String.class);
-                                                            if (dname != null && papp != null && pname.equals(user.getDisplayName())) {
+                                                            if (dname != null && papp != null && pname.equals(name)) {
 
                                                                 Intent i = new Intent(SignInPage.this, Patient.class);
                                                                 startActivity(i);

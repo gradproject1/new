@@ -18,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.estimote.coresdk.common.requirements.SystemRequirementsChecker;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -167,9 +168,11 @@ private  Date date = null;
 
     public void SetUpViewPager (ViewPager viewpage){
         MyViewPageAdapter Adapter = new MyViewPageAdapter(getSupportFragmentManager());
-        Adapter.AddFragmentPage(new entertainment(), "Entertainment Page");
         Adapter.AddFragmentPage(new pwaiting(), "Waiting Page");
-        Adapter.AddFragmentPage(new Pprofile(), "Profile Page");
+        Adapter.AddFragmentPage(new entertainment(), "Entertainment");
+
+
+        Adapter.AddFragmentPage(new Pprofile(), "Profile");
 
 
         //We Need Fragment class now
@@ -228,5 +231,6 @@ private  Date date = null;
 
         return super.onOptionsItemSelected(item);
     }
+
 
 }

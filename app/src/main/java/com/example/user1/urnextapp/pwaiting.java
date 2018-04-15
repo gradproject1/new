@@ -26,6 +26,8 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -46,6 +48,7 @@ public class pwaiting extends Fragment {
     private TextView queueNumber;
     private TextView estimate;
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
+
     private FirebaseAuth firebaseAuth= FirebaseAuth.getInstance();
     private FirebaseUser user = firebaseAuth.getCurrentUser();
     DatabaseReference Patient = database.getReference("Patient");
@@ -53,8 +56,6 @@ public class pwaiting extends Fragment {
     DatabaseReference waiting = database.getReference("waiting time and queue number");
     String id=" ";
     String papp;
-    Handler handler = new Handler();
-    Runnable refresh;
     public pwaiting(){
 
     };
@@ -64,12 +65,14 @@ public class pwaiting extends Fragment {
         View PageOne = inflater.inflate(R.layout.fragment_pwaiting, container, false);
         queueNumber = (TextView) PageOne.findViewById(R.id.queueNumber);
         estimate = (TextView) PageOne.findViewById(R.id.estimatedTime);
-
+        FirebaseApp.initializeApp(getContext());
         if (user != null) {
             id = user.getUid();
 
         }
-
+        final Time today = new Time(Time.getCurrentTimezone());
+        today.setToNow();
+        Patient.child(id).child("arrival").setValue(today.format("%k:%M"));
             //    final Time today = new Time(Time.getCurrentTimezone());
              //   today.setToNow();
               //  final String tod = today.format("%k:%M");
@@ -78,6 +81,7 @@ public class pwaiting extends Fragment {
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         final String pname = dataSnapshot.child("Name").getValue(String.class);
                         final String pphone = dataSnapshot.child("Phone").getValue(String.class);
+
                         final String arrival1 = dataSnapshot.child("arrival").getValue(String.class);
 
                         external.child("Appointment").child("Dental clinic").child(pphone).addValueEventListener(new ValueEventListener() {
@@ -85,8 +89,8 @@ public class pwaiting extends Fragment {
                                 String dname = dataSnapshot.child("Doctor Name").getValue(String.class);
                                  papp = dataSnapshot.child("appTime").getValue(String.class);
                                 if (dname != null && papp != null) {
+                                   // waiting.child(dname).child(papp).setValue(id);
                                     waiting.child(dname).child(papp).setValue(id);
-
                                     waiting.child(dname).orderByKey().endAt(papp).addValueEventListener(new ValueEventListener() {
                                         public void onDataChange(DataSnapshot dataSnapshot) {
 

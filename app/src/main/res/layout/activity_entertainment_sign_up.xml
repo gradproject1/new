@@ -1,33 +1,175 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background"
     tools:context="com.example.user1.urnextapp.entertainmentSignUp">
 
-    <android.support.design.widget.AppBarLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:orientation="vertical"
+        tools:ignore="UseCompoundDrawables"
+        android:id="@+id/linearLayout2">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="271dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="50dp"
+            app:srcCompat="@drawable/logo" />
 
-    </android.support.design.widget.AppBarLayout>
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="249dp"
+            android:layout_height="37dp"
+            android:layout_marginLeft="47dp"
+            android:focusable="false"
+            android:fontFamily="@font/trebuc"
+            android:text="Sign Up Page"
+            android:textAlignment="center"
+            android:textColor="@android:color/background_light"
+            android:textSize="16sp" />
 
-    <include layout="@layout/content_entertainment_sign_up" />
+    </LinearLayout>
+    <!-- name -->
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="20dp"
+        android:id="@+id/linearLayout3">
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="315dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="227dp"
+            android:drawablePadding="16dp"
+            android:fontFamily="@font/trebuc"
+            android:textColor="#fff"
+            android:padding="16dp"
+            android:text="Choose your personalized entertainment content"
+            android:textColorHint="#fff"
+            />
+
+    </LinearLayout>
+
+    <CheckBox
+        android:id="@+id/health"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
+        android:layout_alignBaseline="@+id/History"
+        android:layout_alignBottom="@+id/History"
+        android:layout_alignLeft="@+id/linearLayout3"
+        android:layout_alignStart="@+id/linearLayout3"
+        android:layout_marginLeft="23dp"
+        android:layout_marginStart="23dp"
+        android:onClick="selectItem"
+        android:text="Health and fitness"
+        android:textColor="#fff" />
 
-</android.support.design.widget.CoordinatorLayout>
+    <CheckBox
+        android:id="@+id/diy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/health"
+        android:layout_alignStart="@+id/health"
+        android:layout_below="@+id/fashion"
+        android:onClick="selectItem"
+        android:text="DIY and crafts"
+        android:textColor="#fff" />
+
+    <CheckBox
+        android:id="@+id/fashion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_alignLeft="@+id/diy"
+        android:layout_alignStart="@+id/diy"
+        android:layout_below="@+id/linearLayout3"
+        android:onClick="selectItem"
+        android:text="Fashion"
+        android:textColor="#fff" />
+
+    <CheckBox
+        android:id="@+id/sport"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_alignLeft="@+id/health"
+        android:layout_alignStart="@+id/health"
+        android:layout_below="@+id/health"
+        android:onClick="selectItem"
+        android:text="Sport"
+        android:textColor="#fff" />
+
+    <CheckBox
+        android:id="@+id/travil"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/enter"
+        android:layout_alignRight="@+id/enter"
+        android:layout_below="@+id/linearLayout3"
+        android:onClick="selectItem"
+        android:text="Travil"
+        android:textColor="#fff" />
+
+    <CheckBox
+        android:id="@+id/Technology"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/History"
+        android:layout_alignStart="@+id/History"
+        android:layout_below="@+id/travil"
+        android:onClick="selectItem"
+        android:text="Technology"
+        android:textColor="#fff" />
+
+    <CheckBox
+        android:id="@+id/Book"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/enter"
+        android:layout_alignRight="@+id/enter"
+        android:layout_below="@+id/History"
+        android:onClick="selectItem"
+        android:text="Book"
+        android:textColor="#fff" />
+
+    <CheckBox
+        android:id="@+id/History"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/Book"
+        android:layout_alignStart="@+id/Book"
+        android:layout_below="@+id/Technology"
+        android:onClick="selectItem"
+        android:text="History"
+        android:textColor="#fff" />
+
+    <Button
+        android:id="@+id/enter"
+        android:layout_width="245dp"
+        android:layout_height="wrap_content"
+
+        android:layout_below="@+id/Book"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="26dp"
+        android:background="@drawable/button1"
+        android:clickable="true"
+        android:fontFamily="@font/trebuc"
+        android:onClick="f"
+        android:text="Sign up"
+        android:textAllCaps="false"
+        android:textColor="#fff"
+        android:textSize="18sp"
+        android:textStyle="normal" />
+
+
+</RelativeLayout>

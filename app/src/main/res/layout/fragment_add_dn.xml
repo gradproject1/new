@@ -1,40 +1,24 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.user1.urnextapp.addDN">
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
     <Button
-        android:id="@+id/selectImage"
+        android:id="@+id/selectHealth"
         android:layout_width="130dp"
-        android:layout_height="90dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="80dp"
-        android:background="@drawable/button"
-        android:drawableTop="@drawable/ic_image_black_24dp"
-        android:fontFamily="@font/trebuc"
-        android:shadowColor="#e2e2e2"
-        android:text="Image"
-        android:textAllCaps="false"
-        android:textColor="#204171"
-        android:textSize="18sp"
-        android:textStyle="normal"
-
-        />
-
-    <Button
-        android:id="@+id/selectVideo"
-        android:layout_width="130dp"
-        android:layout_height="90dp"
+        android:layout_height="78dp"
         android:layout_marginLeft="205dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="317dp"
         android:background="@drawable/button1"
         android:fontFamily="@font/trebuc"
         android:shadowColor="#e2e2e2"
-        android:drawableTop="@drawable/ic_videocam_black_24dp"
-        android:text="Video"
+        android:text="Health and Fitness"
         android:textAllCaps="false"
         android:textColor="#fff"
         android:textSize="18sp"
@@ -43,14 +27,13 @@
     <Button
         android:id="@+id/selectFashion"
         android:layout_width="130dp"
-        android:layout_height="90dp"
+        android:layout_height="78dp"
         android:layout_marginLeft="50dp"
-        android:layout_marginTop="190dp"
+        android:layout_marginTop="405dp"
         android:background="@drawable/button1"
         android:fontFamily="@font/trebuc"
         android:shadowColor="#e2e2e2"
         android:text="Fashion"
-        android:drawableTop="@drawable/ic_email_black_24dp"
         android:textAllCaps="false"
         android:textColor="#fff"
         android:textSize="18sp"
@@ -61,39 +44,142 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="60dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="97dp"
         android:textSize="20dp"
         android:fontFamily="@font/trebuc"
         android:textColor="#4095c6"
         android:text="Please choose file to upload..." />
 
-    <Button
-        android:id="@+id/selectBook"
+        <TextView
+            android:id="@+id/textView68"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="60dp"
+            android:layout_marginTop="20dp"
+            android:textSize="20dp"
+            android:fontFamily="@font/trebuc"
+            android:textColor="#4095c6"
+            android:text="Please Enter the link of article" />
+
+        <EditText
+            android:id="@+id/articleLink"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="47dp"
+            android:hint="enter article link .."
+            android:inputType="textUri"
+            android:textColor="#13425b" />
+
+        <Button
+        android:id="@+id/selectDIY"
         android:layout_width="130dp"
-        android:layout_height="90dp"
-        android:layout_marginLeft="205dp"
-        android:layout_marginTop="190dp"
+        android:layout_height="78dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="317dp"
         android:background="@drawable/button"
+
         android:fontFamily="@font/trebuc"
         android:shadowColor="#e2e2e2"
-        android:text="Book"
-        android:drawableTop="@drawable/ic_bookmark_black_24dp"
+        android:text="DIY and crafts"
         android:textAllCaps="false"
         android:textColor="#204171"
         android:textSize="18sp"
-        android:textStyle="normal" />
+        android:textStyle="normal"
 
-    <Button
-        android:id="@+id/logout3"
-        android:layout_width="257dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="65dp"
-        android:layout_marginTop="302dp"
-        android:background="@drawable/button"
-        android:fontFamily="@font/trebuc"
-        android:text="Log Out"
+        />
 
-        android:textAllCaps="false"
-        android:textColor="#204171" />
 
-</FrameLayout>
+        <Button
+            android:id="@+id/logout3"
+            android:layout_width="256dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="65dp"
+            android:layout_marginTop="502dp"
+            android:background="@drawable/button"
+            android:fontFamily="@font/trebuc"
+            android:text="Log Out"
+
+            android:textAllCaps="false"
+            android:textColor="#204171" />
+
+        <Button
+            android:id="@+id/selectBook"
+            android:layout_width="130dp"
+            android:layout_height="78dp"
+            android:layout_marginLeft="205dp"
+            android:layout_marginTop="405dp"
+            android:background="@drawable/button"
+            android:fontFamily="@font/trebuc"
+            android:shadowColor="#e2e2e2"
+            android:text="Book"
+
+            android:textAllCaps="false"
+            android:textColor="#204171"
+            android:textSize="18sp"
+            android:textStyle="normal" />
+        <Button
+            android:id="@+id/selectHistory"
+            android:layout_width="130dp"
+            android:layout_height="78dp"
+            android:layout_marginLeft="205dp"
+            android:layout_marginTop="230dp"
+            android:background="@drawable/button"
+            android:fontFamily="@font/trebuc"
+            android:shadowColor="#e2e2e2"
+            android:text="History"
+
+            android:textAllCaps="false"
+            android:textColor="#204171"
+            android:textSize="18sp"
+            android:textStyle="normal" />
+
+        <Button
+            android:id="@+id/selectSport"
+            android:layout_width="130dp"
+            android:layout_height="78dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="230dp"
+            android:background="@drawable/button1"
+            android:fontFamily="@font/trebuc"
+            android:shadowColor="#e2e2e2"
+            android:text="Sport"
+            android:textAllCaps="false"
+            android:textColor="#fff"
+            android:textSize="18sp"
+            android:textStyle="normal" />
+
+        <Button
+            android:id="@+id/selectTechnology"
+            android:layout_width="130dp"
+            android:layout_height="78dp"
+            android:layout_marginLeft="205dp"
+            android:layout_marginTop="140dp"
+            android:background="@drawable/button1"
+            android:fontFamily="@font/trebuc"
+            android:shadowColor="#e2e2e2"
+            android:text="Technology"
+            android:textAllCaps="false"
+            android:textColor="#fff"
+            android:textSize="18sp"
+            android:textStyle="normal" />
+
+
+        <Button
+            android:id="@+id/selectTravil"
+            android:layout_width="130dp"
+            android:layout_height="78dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="140dp"
+            android:background="@drawable/button"
+            android:fontFamily="@font/trebuc"
+            android:shadowColor="#e2e2e2"
+            android:text="Travil"
+            android:textAllCaps="false"
+            android:textColor="#204171"
+            android:textSize="18sp"
+            android:textStyle="normal"
+
+            />
+    </FrameLayout>
+
+</ScrollView>

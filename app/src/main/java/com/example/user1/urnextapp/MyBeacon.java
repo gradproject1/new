@@ -1,20 +1,19 @@
 package com.example.user1.urnextapp;
 
+import android.app.Application;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 
-        import android.app.Application;
-        import android.app.Notification;
-        import android.app.NotificationManager;
-        import android.app.PendingIntent;
-        import android.content.Context;
-        import android.content.Intent;
 
+import com.estimote.coresdk.observation.region.beacon.BeaconRegion;
+import com.estimote.coresdk.recognition.packets.Beacon;
+import com.estimote.coresdk.service.BeaconManager;
 
-        import com.estimote.coresdk.observation.region.beacon.BeaconRegion;
-        import com.estimote.coresdk.recognition.packets.Beacon;
-        import com.estimote.coresdk.service.BeaconManager;
-
-        import java.util.List;
-        import java.util.UUID;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by Nony on 28/03/18.
@@ -51,7 +50,6 @@ public class MyBeacon extends Application {
         });
 
         ///////////////////////////////////////
-
         // add this below:
         beaconManager.connect(new BeaconManager.ServiceReadyCallback() {
             @Override
@@ -66,7 +64,7 @@ public class MyBeacon extends Application {
     }
 
     public void showNotification(String title, String message) {
-        Intent notifyIntent = new Intent(this, Patient.class);
+        Intent notifyIntent = new Intent(this, WelcomePage.class);
         notifyIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivities(this, 0,
                 new Intent[] { notifyIntent }, PendingIntent.FLAG_UPDATE_CURRENT);

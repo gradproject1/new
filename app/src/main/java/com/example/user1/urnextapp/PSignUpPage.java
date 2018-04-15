@@ -92,7 +92,7 @@ public class PSignUpPage extends AppCompatActivity {
                         .addOnCompleteListener(PSignUpPage.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
-                                Toast.makeText(PSignUpPage.this, "waiting .." , Toast.LENGTH_SHORT).show();
+
 
                                 if (!task.isSuccessful()) {
                                     Toast.makeText(PSignUpPage.this, "This email ia already exist." ,
@@ -101,18 +101,21 @@ public class PSignUpPage extends AppCompatActivity {
                                 } else {
                                     FirebaseUser user = auth.getCurrentUser();
                                     assert user != null;
-                                    user.sendEmailVerification();
-                                        Toast.makeText(PSignUpPage.this, "A verification link has been sent to your email account" , Toast.LENGTH_LONG).show();
+
                                     String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
                                     Patient.child(uid).child("Name").setValue(name1);
                                     Patient.child(uid).child("Phone").setValue(phone1);
                                     Patient.child(uid).child("sport").setValue("0");
-                                    Patient.child(uid).child("video").setValue("0");
+                                    Patient.child(uid).child("health").setValue("0");
                                     Patient.child(uid).child("fashion").setValue("0");
-                                    Patient.child(uid).child("photo").setValue("0");
+                                    Patient.child(uid).child("diy").setValue("0");
+                                    Patient.child(uid).child("history").setValue("0");
+                                    Patient.child(uid).child("technology").setValue("0");
+                                    Patient.child(uid).child("travil").setValue("0");
+                                    Patient.child(uid).child("book").setValue("0");
                                     Patient.child(uid).child("email").setValue(email);
                                     Patient.child(uid).child("Password").setValue(password);
-                                    startActivity(new Intent(PSignUpPage.this, SignInPage.class));
+                                    startActivity(new Intent(PSignUpPage.this, entertainmentSignUp.class));
                                     finish();
                                 }
                             }
